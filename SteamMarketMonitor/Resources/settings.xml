@@ -1,7 +1,7 @@
 <settings>
 	<startup>true</startup>
     <currency>1</currency>
-    <interval>3600</interval>
+    <interval>60</interval>
     <tray IsEnabled="true">
         <minimise>true</minimise>
         <close>true</close>

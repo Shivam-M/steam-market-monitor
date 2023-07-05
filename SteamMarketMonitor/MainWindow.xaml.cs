@@ -50,14 +50,14 @@ namespace SteamMarketMonitor {
         private readonly Button _removeButton;
         private readonly Button _editButton;
 
-        private readonly XmlDocument _configFile = new XmlDocument();
+        private readonly XmlDocument _configFile = new();
         
         private int _currencyID = 1;
         private string _lastHeader = "";
 
-        private readonly List<Item> _items = new List<Item> { };
+        private readonly List<Item> _items = new() { };
         private JObject _savedItems;
-        private JObject _cachedItems = new JObject();
+        private JObject _cachedItems = new();
 
         public MainWindow() {
             InitializeComponent();
@@ -92,7 +92,7 @@ namespace SteamMarketMonitor {
             currencyChanger.DropDownItems.Add("EUR - €", null, (sender, e) => CheckID(3));
 
             for (int x = 0; x < _notifyIcon.ContextMenuStrip.Items.Count; x++) {
-                if (!(CMS.Items[x] is Forms.ToolStripMenuItem menuItem)) continue;
+                if (CMS.Items[x] is not Forms.ToolStripMenuItem menuItem) continue;
                 menuItem.BackColor = Colours.MENU_BG;
                 menuItem.ForeColor = Colours.MENU_FG;
                 menuItem.MouseEnter += TSMI_MouseEnter;
@@ -134,7 +134,7 @@ namespace SteamMarketMonitor {
         private void TSMI_MouseLeave(object sender, EventArgs e) => (sender as Forms.ToolStripMenuItem).ForeColor = Colours.MENU_FG;
 
         private async void OnLoaded(object sender, RoutedEventArgs e) {
-            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+            CancellationTokenSource cancellationTokenSource = new();
             await RegularlyCheck(TimeSpan.FromSeconds(int.Parse(_configFile.DocumentElement.SelectSingleNode("/settings/interval").InnerText)), cancellationTokenSource.Token);
         }
 
@@ -214,11 +214,11 @@ namespace SteamMarketMonitor {
         private async Task UpdatePrices(bool background = false) {
             Title = WINDOW_TITLE + " - Loading...";
             Mouse.OverrideCursor = Cursors.AppStarting;
-            HttpClient client = new HttpClient();
+            HttpClient client = new();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             foreach (Item item in _items) {
                 await UpdatePrice(item, client);
-                if (!background) _listView.Items.Refresh();
+                if (WindowState == WindowState.Minimized || WindowState == WindowState.Maximized) _listView.Items.Refresh();
             }
             _textUpdate.Content = "Last Updated: " + DateTime.Now.ToString(@"dd\/MM\/yyyy HH:mm:ss");
 
@@ -236,7 +236,7 @@ namespace SteamMarketMonitor {
         }
 
         private async void UpdatePrice(Item item) {
-            HttpClient client = new HttpClient();
+            HttpClient client = new();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             await UpdatePrice(item, client);
         }
@@ -342,12 +342,12 @@ namespace SteamMarketMonitor {
             }
 
             if (double.TryParse(_priceBox.Text, out double price)) {
-                Item item = new Item() { Name = itemName, Price = FormatPrice(price), LowestPrice = "N/A", MedianPrice = "N/A", Threshold = 50 };
+                Item item = new() { Name = itemName, Price = FormatPrice(price), LowestPrice = "N/A", MedianPrice = "N/A", Threshold = 50 };
                 _items.Add(item);
                 if (CheckCache(ref item)) _listView.Items.Refresh();
                 UpdatePrice(item);
                 JArray itemList = (JArray)_savedItems["items"];
-                JObject itemObject = new JObject() { { "item", item.Name }, { "threshold", -1 }, { "price", item.GetPrice()} };
+                JObject itemObject = new() { { "item", item.Name }, { "threshold", -1 }, { "price", item.GetPrice()} };
                 itemList.Add(itemObject);
                 SaveData();
                 _listView.Items.Refresh();
