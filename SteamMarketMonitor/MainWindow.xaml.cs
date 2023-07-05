@@ -24,6 +24,8 @@ namespace SteamMarketMonitor {
 
     public partial class MainWindow : Window {
 
+        // TODO: Fix background refresh UI update.
+
         private const string ICON_FILE = "Resources/smm.ico";
         private const string DATA_FILE = "Resources/data.json";
         private const string CONF_FILE = "Resources/settings.xml";
@@ -246,7 +248,7 @@ namespace SteamMarketMonitor {
             string responseString = await responseMsg.Content.ReadAsStringAsync();
             JObject responseData = JObject.Parse(responseString);
             item.LowestPrice = responseData["lowest_price"]?.ToString() ?? "N/A";
-            item.MedianPrice = responseData["median_price"]?.ToString() ?? "N/A";
+            item.MedianPrice = responseData["median_price"]?.ToString() ?? "N/A"; // Median prices may be lower than the "lowest_price" due to Steam currency conversions for sold items
             item.CalculateChange();
             CacheItem(item);
         }
