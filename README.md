@@ -16,4 +16,8 @@
 - The program will minimise to the system tray upon pressing the close button
 - Right click the tray icon to change the currency
 - Edit `./Resources/settings.xml` to change any other settings
-- Requires .NET installation
+- Requires .NET 7 installation
+
+### Screenshots
+![Main SMM Window](https://i.imgur.com/57nTTxz.png)
+![Tray Icon Menu](https://i.imgur.com/3n7vMiy.png)
