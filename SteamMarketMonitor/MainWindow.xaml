@@ -1,0 +1,115 @@
+﻿<Window x:Class="SteamMarketMonitor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600" Width="1000" Background="#2f3640">
+    
+    <Grid>
+        <Button Content="Remove" HorizontalAlignment="Right" Margin="0,0,45,26" VerticalAlignment="Bottom" Width="73" IsEnabled="False" x:Name="RemoveButton" Click="RemoveButton_Click"/>
+        <TextBox HorizontalAlignment="Left" Margin="45,0,0,67" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="698" x:Name="EnterURL"/>
+        <TextBox HorizontalAlignment="Left" Margin="769,0,0,67" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="95" x:Name="EnterPrice"/>
+        <Label Content="£" HorizontalAlignment="Left" Margin="753,0,0,63" VerticalAlignment="Bottom" VerticalContentAlignment="Bottom" Foreground="#FFC3C3C3" x:Name="CurrencyIndicator"/>
+        <Button Content="Add" HorizontalAlignment="Right" Margin="0,0,45,66" VerticalAlignment="Bottom" Width="58" Click="AddButton_Click"/>
+        <Button Content="Refresh" HorizontalAlignment="Right" Margin="0,0,231,26" VerticalAlignment="Bottom" Width="74" Click="RefreshButton_Click"/>
+        <Label Content="Last Updated: N/A" HorizontalAlignment="Left" Margin="39,0,0,28" VerticalAlignment="Bottom" Foreground="#FF7f8c8d" x:Name="UpdateText" VerticalContentAlignment="Bottom"/>
+        <Label Content="Price" VerticalContentAlignment="Bottom" Margin="765,365,82,85" Foreground="#FFC3C3C3"/>
+        <Label Content="Item Market URL" VerticalContentAlignment="Bottom" Foreground="#FFC3C3C3" Margin="39,365,745,87"/>
+        <ListView MouseDoubleClick="Items_MouseDoubleClick" x:Name="Items" Margin="45,41,45,134" BorderThickness="0" Background="#95a5a6" AlternationCount="2" GridViewColumnHeader.Click="GridViewColumnHeaderClickedHandler" SelectionChanged="Items_SelectionChanged">
+            <ListView.Resources>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Style.Triggers>
+                        <Trigger Property="ItemsControl.AlternationIndex" Value="0">
+                            <Setter Property="Background" Value="#19f39611"/>
+                        </Trigger>
+                        
+                        <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                            <Setter Property="Background" Value="#19000000"/>
+                        </Trigger>
+
+                        <DataTrigger Binding="{Binding Change}" Value="-3">
+                            <Setter Property="Background" Value="#DEe74c3c" />
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding Change}" Value="-2">
+                            <Setter Property="Background" Value="#12e74c3c" />
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding Change}" Value="-1">
+                            <Setter Property="Background" Value="#34e74c3c" />
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding Change}" Value="1">
+                            <Setter Property="Background" Value="#122ecc71" />
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding Change}" Value="2">
+                            <Setter Property="Background" Value="#992ecc71" />
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding Change}" Value="3">
+                            <Setter Property="Background" Value="#DE2ecc71" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+
+                <DataTemplate x:Key="Centralise">
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding}"/>
+                </DataTemplate>
+                <Style x:Key="HeaderStyle" TargetType="{x:Type GridViewColumnHeader}">
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                </Style>
+            </ListView.Resources>
+
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Name" Width="300" DisplayMemberBinding="{Binding Name}" />
+
+                    <GridViewColumn Header="Price" Width="120" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Price}" TextAlignment="Center" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Header="Lowest Price"  Width="132">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding LowestPrice}" TextAlignment="Center" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Header="Median Price"  Width="132">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding MedianPrice}" TextAlignment="Center" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Header="%Δ Lowest"  Width="100">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding PercentageLowest}" TextAlignment="Center" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Header="%Δ Median"  Width="100">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding PercentageMedian}" TextAlignment="Center" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button Content="Edit" HorizontalAlignment="Right" Margin="0, 0, 136, 26" VerticalAlignment="Bottom" Width="74" Click="EditButton_Click" x:Name="EditButton" IsEnabled="False"/>
+
+    </Grid>
+</Window>

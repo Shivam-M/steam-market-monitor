@@ -1,0 +1,34 @@
+﻿{
+  "items": [
+    {
+      "item": "M4A4 | Radiation Hazard (Field-Tested)",
+      "price": 11.87,
+      "threshold": 50
+    },
+    {
+      "item": "Glock-18 | Blue Fissure (Well-Worn)",
+      "price": 12.31,
+      "threshold": 50
+    },
+    {
+      "item": "StatTrak™ USP-S | Stainless (Field-Tested)",
+      "price": 9.12,
+      "threshold": 50
+    },
+    {
+      "item": "P2000 | Red FragCam (Minimal Wear)",
+      "price": 49.18,
+      "threshold": 50
+    },
+    {
+      "item": "StatTrak™ Desert Eagle | Heirloom (Minimal Wear)",
+      "price": 19.18,
+      "threshold": 50
+    },
+    {
+      "item": "USP-S | Stainless (Factory New)",
+      "price": 20.02,
+      "threshold": 50
+    }
+  ]
+}
